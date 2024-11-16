@@ -10,6 +10,7 @@ function AdminPage() {
         description: '',
         image: null,
     });
+    const [editingMode,setEditingMode]=useState(false)
 
 
     const handleChange = (e) => {
@@ -26,8 +27,16 @@ function AdminPage() {
     };
 
     const handleSubmit = (e) => {
+
         e.preventDefault();
-        setUserList([...userList, formData])
+        if(editingMode){
+          const updatedList=userList.map((user)=>
+          user.name === formData.name?formData:user
+          )
+          setUserList(updatedList)
+          setEditingMode(false)
+        }
+       else setUserList([...userList, formData])
         setFormData({
             name: '',
             phone: '',
@@ -36,15 +45,21 @@ function AdminPage() {
             image: null,
         })
         // console.log(formData)
-        alert('Added Successfully')
+        alert(editingMode?'Updated Successfully':'Added Successfully')
 
+    }
+
+    const handleEdit=(data)=>{
+        console.log(data)
+       setFormData(data)
+       setEditingMode(true)
     }
 
     return (
         <div>
             <div className="flex items-center justify-center m-5">
 
-                <div className=" border-2 border-blue-300 rounded-md w-80 h-56 overflow-y-scroll shadow-lg">
+                <div className=" border-2 border-blue-300 rounded-md w-80 h-56 overflow-y-scroll shadow-2xl">
 
                     <form>
                         <input type="text" placeholder="Name"
@@ -70,12 +85,14 @@ function AdminPage() {
 
                         <div className="m-3">Add Image:</div>
                         <input type="file" className="w-48 ms-2" onChange={handleImageChange} />
-                        <div className="text-center"> <button className="bg-blue-600 p-2 m-1 text-white rounded-md" onClick={handleSubmit}>ADD</button> </div>
+                        <div className="text-center"> <button className="bg-blue-600 p-2 m-1 text-white rounded-md" onClick={handleSubmit}>
+                            {editingMode?"UPDATE":"ADD"}
+                            </button> </div>
                     </form>
 
                 </div>
             </div>
-            <UserTable data={userList} setUserList={setUserList} />
+            <UserTable data={userList} setUserList={setUserList} EditRow={handleEdit} />
         </div>
 
     )

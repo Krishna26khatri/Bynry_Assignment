@@ -1,9 +1,14 @@
 import React,{useState} from 'react'
 import DataTable from 'react-data-table-component'
 
-function UserTable({ data,setUserList }) {
+function UserTable({ data,setUserList,EditRow}) {
 
   //  console.log(data)
+
+//   const handleEdit=(row)=>{
+//       console.log(row);
+//       EditRow(row)
+//   }
 
   const handleDelete=(e)=>{
      // console.log(e.target.id)
@@ -40,7 +45,7 @@ function UserTable({ data,setUserList }) {
             selector: row => row.description,
             sortable: true,
             wrap:true,
-            cell: row => (
+            cell: (row) => (
                 <div className="truncate max-w-xs" title={row.description}>
                   {row.description}
                 </div>
@@ -51,7 +56,7 @@ function UserTable({ data,setUserList }) {
             sortable:true,
             cell: row => (
                <div className="space-x-2">
-                <button onClick={()=>handleEdit(row.name)} className="bg-green-500 p-2 rounded-md w-12">Edit</button>
+                <button onClick={()=>EditRow(row)} id={row.name} className="bg-green-500 p-2 rounded-md ">Edit(Except Name)</button>
                 <button onClick={handleDelete} id={row.name} className="bg-red-500 p-2 rounded-md ">Delete</button>
               </div>
             ),
