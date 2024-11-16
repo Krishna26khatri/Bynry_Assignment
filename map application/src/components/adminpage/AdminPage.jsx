@@ -60,7 +60,7 @@ function AdminPage() {
             <div className="flex items-center justify-center m-5">
 
                 <div className=" border-2 border-blue-300 rounded-md w-80 h-56 overflow-y-scroll shadow-2xl">
-
+<div className="text-center m-3">Add User's. . .</div>
                     <form>
                         <input type="text" placeholder="Name"
                             id="name"
