@@ -1,8 +1,10 @@
-import React,{useContext} from 'react'
+import React,{useContext, useState} from 'react'
 import {UserContext} from '../UserContext'
 
 function Profile() {
     const {userList} =useContext(UserContext)
+    const [searchBoxValue,setSearchBoxValue] = useState('')
+    const [filteredData,setFilteredData] = useState(userList)
 
     const showMap=(e)=>{
     // console.log(e.target.id)
@@ -14,13 +16,21 @@ function Profile() {
     window.open(mapUrl); 
     }
 
+    const findUser=(e)=>{
+        const name = e.target.value
+       // console.log(name)
+        setSearchBoxValue(name)
+        setFilteredData(userList.filter((user)=>user.name.includes(name)))   
+    }
+
     return (
         <div className="p-4">
             <div className="text-center text-bold text-2xl mb-6 text-blue-800">
                 All User's Profiles
+                <div className="text-right me-4 "><input type="text" placeholder="Search User by Name" className="border border-gray-600 rounded-xl ps-1 text-sm text-gray-400"  value={searchBoxValue} onChange={findUser}></input></div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {userList.map((user, index) => (
+                {filteredData.map((user, index) => (
                     <div
                         key={index}
                         className="border rounded-lg shadow-lg w-72 p-4 cursor-pointer hover:shadow-xl"
